@@ -1,0 +1,25 @@
+{
+  "fps": 120,
+  "background-colors": [
+    [ 0.98, 0.33, 0.33, 1.0 ],
+    [ 0.98, 0.55, 0.15, 1.0 ],
+    [ 0.96, 0.82, 0.20, 1.0 ],
+    [ 0.47, 0.30, 0.58, 1.0 ]
+  ],
+
+  "stars": {
+    "radius": 8,
+    "color": [ 1, 1, 1, 1 ],
+    "count": 180,
+    "min-speed": 0,
+    "max-speed": 30,
+    "line-color": [ 1, 1, 1, 1 ],
+    "line-min-width": 1,
+    "line-max-width": 4.5,
+    "segments": 8,
+    "draw-stars": false
+  },
+
+  "mouse-radius": 180,
+  "stars-line-radius": 300
+}
