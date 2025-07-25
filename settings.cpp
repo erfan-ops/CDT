@@ -18,14 +18,10 @@ Settings loadSettings(const std::string& filename) {
 	settings.stars.count = j["stars"]["count"];
 	settings.stars.minSpeed = j["stars"]["min-speed"];
 	settings.stars.maxSpeed = j["stars"]["max-speed"];
-	settings.stars.lineColor = j["stars"]["line-color"].get<std::array<float, 4>>();
-	settings.stars.lineMinWidth = j["stars"]["line-min-width"];
-	settings.stars.lineMaxWidth = j["stars"]["line-max-width"];
 	settings.stars.nSegments = j["stars"]["segments"];
 	settings.stars.draw = j["stars"]["draw-stars"];
 
-	settings.mouseRadius = j["mouse-radius"];
-	settings.starsLineRadius = j["stars-line-radius"];
+	settings.offsetBounds = j["offset-bounds"];
 
 	return settings;
 }

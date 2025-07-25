@@ -159,9 +159,6 @@ int CALLBACK WinMain(
 	const Settings settings = loadSettings("settings.json");
 
 	const float stepInterval = 1.0f / settings.targetFPS;
-	const float MOUSE_RADIUS_SQR = settings.mouseRadius * settings.mouseRadius;
-	const float STARS_LINE_RADIUS_SQR = settings.starsLineRadius * settings.starsLineRadius;
-	const float DLINE_WIDTH = settings.stars.lineMaxWidth - settings.stars.lineMinWidth;
 
 	if (settings.stars.draw) {
 		Star::renderFunc = &Star::realRender;
@@ -208,8 +205,8 @@ int CALLBACK WinMain(
 	
 	Star* stars = new Star[settings.stars.count];
 
-	const float offsetBounds = settings.starsLineRadius;
-	const float roffsetBounds = -settings.starsLineRadius;
+	const float offsetBounds = settings.offsetBounds;
+	const float roffsetBounds = -settings.offsetBounds;
 	const float woffsetBounds = offsetBounds + Width;
 	const float hoffsetBounds = offsetBounds + Height;
 
@@ -306,12 +303,12 @@ int CALLBACK WinMain(
 			int c = out.trianglelist[i * 3 + 2];
 
 			// Get coordinates of each point
-			float x1 = out.pointlist[a * 2 + 0];
-			float y1 = out.pointlist[a * 2 + 1];
-			float x2 = out.pointlist[b * 2 + 0];
-			float y2 = out.pointlist[b * 2 + 1];
-			float x3 = out.pointlist[c * 2 + 0];
-			float y3 = out.pointlist[c * 2 + 1];
+			float x1 = static_cast<float>(out.pointlist[a * 2 + 0]);
+			float y1 = static_cast<float>(out.pointlist[a * 2 + 1]);
+			float x2 = static_cast<float>(out.pointlist[b * 2 + 0]);
+			float y2 = static_cast<float>(out.pointlist[b * 2 + 1]);
+			float x3 = static_cast<float>(out.pointlist[c * 2 + 0]);
+			float y3 = static_cast<float>(out.pointlist[c * 2 + 1]);
 
 			float cy = (y1 + y2 + y3) / 3;
 			std::array<float, 4> color = interpolateColors(settings.backGroundColors, cy / hoffsetBounds);

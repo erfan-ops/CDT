@@ -6,7 +6,7 @@
 
 // Define a struct to represent your settings
 struct Settings {
-	float targetFPS;
+	float targetFPS{120};
 	std::vector<std::array<float, 4>> backGroundColors;
 
 	struct Stars {
@@ -15,15 +15,11 @@ struct Settings {
 		int count;
 		float minSpeed;
 		float maxSpeed;
-		std::array<float, 4> lineColor;
-		float lineMinWidth;
-		float lineMaxWidth;
 		int nSegments;
 		bool draw;
 	} stars;
 
-	float mouseRadius;
-	float starsLineRadius;
+	float offsetBounds;
 };
 
 // Function to load settings from a JSON file

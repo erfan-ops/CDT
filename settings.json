@@ -13,13 +13,9 @@
     "count": 180,
     "min-speed": 0,
     "max-speed": 30,
-    "line-color": [ 1, 1, 1, 1 ],
-    "line-min-width": 1,
-    "line-max-width": 4.5,
     "segments": 8,
     "draw-stars": false
   },
 
-  "mouse-radius": 180,
-  "stars-line-radius": 300
+  "offset-bounds":  300
 }
