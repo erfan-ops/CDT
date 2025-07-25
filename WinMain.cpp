@@ -80,9 +80,7 @@ static inline void gameTick(float& frameTime, const float& stepInterval, float& 
 	}
 }
 
-void (Star::* Star::renderFunc)(const int) const = &Star::realRender;
-
-static std::array<float, 4> interpolateColors(const std::vector<std::array<float, 4>>& colors, float t) {
+static Color interpolateColors(const std::vector<Color>& colors, float t) {
 	if (colors.empty()) return { 0, 0, 0, 1 }; // Default: Black
 	if (colors.size() == 1) return colors[0]; // Only 1 color
 
@@ -156,7 +154,7 @@ int CALLBACK WinMain(
 
 	if (!hwnd) return -1;
 
-	const Settings settings = loadSettings("settings.json");
+	/*const Settings settings = loadSettings("settings.json");*/
 
 	const float stepInterval = 1.0f / settings.targetFPS;
 
@@ -165,6 +163,12 @@ int CALLBACK WinMain(
 	}
 	else {
 		Star::renderFunc = &Star::emptyRender;
+	}
+	if (settings.moveFromMouse) {
+		Star::moveFunc = &Star::moveWithMouse;
+	}
+	else {
+		Star::moveFunc = &Star::normalMove;
 	}
 
 	// Load the icon from resources
@@ -270,9 +274,31 @@ int CALLBACK WinMain(
 		mousePos.x -= leftMost;
 		mousePos.y -= topMost;
 
+		triangulate(mode, &in, &out, &vorout);
+
+		// Extract triangles
+		for (int i = 0; i < out.numberoftriangles; i++) {
+			int a = out.trianglelist[i * 3 + 0];
+			int b = out.trianglelist[i * 3 + 1];
+			int c = out.trianglelist[i * 3 + 2];
+
+			// Get coordinates of each point
+			float x1 = static_cast<float>(out.pointlist[a * 2 + 0]);
+			float y1 = static_cast<float>(out.pointlist[a * 2 + 1]);
+			float x2 = static_cast<float>(out.pointlist[b * 2 + 0]);
+			float y2 = static_cast<float>(out.pointlist[b * 2 + 1]);
+			float x3 = static_cast<float>(out.pointlist[c * 2 + 0]);
+			float y3 = static_cast<float>(out.pointlist[c * 2 + 1]);
+
+			float cy = (y1 + y2 + y3) / 3;
+			Color color = interpolateColors(settings.backGroundColors, cy / hoffsetBounds);
+
+			filledTriangle(x1, y1, x2, y2, x3, y3, color[0], color[1], color[2], color[3]);
+		}
+
 		for (int starIdx = 0; starIdx < settings.stars.count; ++starIdx) {
 			Star& star = stars[starIdx];
-			star.move(dt);
+			star.move(dt, mousePos);
 
 			star.render(settings.stars.nSegments);
 
@@ -293,29 +319,6 @@ int CALLBACK WinMain(
 			in.pointlist[starIdx * 2] = star.x;
 			in.pointlist[starIdx * 2 + 1] = star.y;
 		}
-
-		triangulate(mode, &in, &out, &vorout);
-
-		// Extract triangles
-		for (int i = 0; i < out.numberoftriangles; i++) {
-			int a = out.trianglelist[i * 3 + 0];
-			int b = out.trianglelist[i * 3 + 1];
-			int c = out.trianglelist[i * 3 + 2];
-
-			// Get coordinates of each point
-			float x1 = static_cast<float>(out.pointlist[a * 2 + 0]);
-			float y1 = static_cast<float>(out.pointlist[a * 2 + 1]);
-			float x2 = static_cast<float>(out.pointlist[b * 2 + 0]);
-			float y2 = static_cast<float>(out.pointlist[b * 2 + 1]);
-			float x3 = static_cast<float>(out.pointlist[c * 2 + 0]);
-			float y3 = static_cast<float>(out.pointlist[c * 2 + 1]);
-
-			float cy = (y1 + y2 + y3) / 3;
-			std::array<float, 4> color = interpolateColors(settings.backGroundColors, cy / hoffsetBounds);
-
-			filledTriangle(x1, y1, x2, y2, x3, y3, color[0], color[1], color[2], color[3]);
-		}
-
 
 		SwapBuffers(hdc);
 

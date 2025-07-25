@@ -21,6 +21,8 @@ Settings loadSettings(const std::string& filename) {
 	settings.stars.nSegments = j["stars"]["segments"];
 	settings.stars.draw = j["stars"]["draw-stars"];
 
+	settings.moveFromMouse = j["moveaway-from-mouse"];
+	settings.mouseDistance = j["keep-distance-from-mouse"];
 	settings.offsetBounds = j["offset-bounds"];
 
 	return settings;

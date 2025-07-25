@@ -9,13 +9,15 @@
 
   "stars": {
     "radius": 8,
-    "color": [ 1, 1, 1, 1 ],
-    "count": 180,
+    "color": [ 0, 0, 0, 1 ],
+    "count": 550,
     "min-speed": 0,
-    "max-speed": 30,
-    "segments": 8,
-    "draw-stars": false
+    "max-speed": 15,
+    "segments": 32,
+    "draw-stars": true
   },
 
+  "moveaway-from-mouse": false,
+  "keep-distance-from-mouse": 200,
   "offset-bounds":  300
 }

@@ -4,14 +4,16 @@
 #include <vector>
 #include <array>
 
+using Color = std::array<float, 4>;
+
 // Define a struct to represent your settings
 struct Settings {
 	float targetFPS{120};
-	std::vector<std::array<float, 4>> backGroundColors;
+	std::vector<Color> backGroundColors;
 
 	struct Stars {
 		float radius;
-		std::array<float, 4> color;
+		Color color;
 		int count;
 		float minSpeed;
 		float maxSpeed;
@@ -19,6 +21,8 @@ struct Settings {
 		bool draw;
 	} stars;
 
+	bool moveFromMouse;
+	float mouseDistance;
 	float offsetBounds;
 };
 
